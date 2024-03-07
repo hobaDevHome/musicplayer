@@ -6,7 +6,7 @@ const Header = () => {
 
   return (
     <nav
-      className="w-full  flex fixed items-center justify-between h-[50px]  p-3 border-2 p-0 m-0"
+      className="w-full  flex fixed items-center justify-between h-[60px]  p-3 border-2 p-0 m-0"
       aria-label="Global"
     >
       <div class="relative flex-1 mr-10">
@@ -82,7 +82,7 @@ const Header = () => {
           </div>
           <div>
             <img
-              className="inline-block h-7 w-7 rounded-full ring-2 ring-white"
+              className="inline-block h-9 w-9 rounded-full ring-2 ring-white"
               src={avatar}
               alt="avatar"
             />
