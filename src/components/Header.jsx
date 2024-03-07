@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import avatar from "../images/nar2.jpg";
 
 const Header = () => {
-  const [menuOpened, setMenuOpened] = useState(true);
+  const [menuOpened, setMenuOpened] = useState(false);
   return (
     <nav
       className="w-full  flex fixed items-center justify-between h-[50px]  p-3 border-2 p-0 m-0"
@@ -56,7 +56,7 @@ const Header = () => {
           </svg>
         </div>
         <div
-          className="flex cursor-pointer relative p-2"
+          className="flex cursor-pointer relative p-2 transition-all duration-300 ease-out"
           style={{ backgroundColor: menuOpened ? "rgb(226 232 240)" : "white" }}
           onClick={() => setMenuOpened(!menuOpened)}
         >
@@ -69,7 +69,11 @@ const Header = () => {
             />
           </div>
           {menuOpened && (
-            <div className="flex flex-col absolute left-0 top-[45px] border-2   z-10 bg-white">
+            <div
+              className={`flex flex-col absolute left-0 top-[45px] border-2  z-10 bg-white transition-all duration-900 ease-out 
+              ${menuOpened && "animate-show"}  ${!menuOpened && "animate-hide"}
+                          `}
+            >
               <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100 ">
                 Settings
               </h4>

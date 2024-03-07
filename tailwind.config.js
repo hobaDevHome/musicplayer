@@ -2,7 +2,22 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        show: {
+          "0%": { opacity: 0, transform: "translateX(40px)" },
+          "100%": { opacity: 1 },
+        },
+        hide: {
+          "0%": { opacity: 1 },
+          "100%": { opacity: 0, transform: "translateX(-70px)" },
+        },
+      },
+      animation: {
+        show: "show 300ms ease-in-out",
+        hide: "hide 300ms ease-in-out",
+      },
+    },
   },
   plugins: [],
 };
