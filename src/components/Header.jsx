@@ -3,6 +3,7 @@ import avatar from "../images/nar2.jpg";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
+
   return (
     <nav
       className="w-full  flex fixed items-center justify-between h-[50px]  p-3 border-2 p-0 m-0"
@@ -60,7 +61,25 @@ const Header = () => {
           style={{ backgroundColor: menuOpened ? "rgb(226 232 240)" : "white" }}
           onClick={() => setMenuOpened(!menuOpened)}
         >
-          <div className="flex mx-3 ">Ahmed Sarhan</div>
+          <div className="flex mx-3 justify-center items-center ">
+            <div>Ahmed Sarhan</div>
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 ml-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </div>
+          </div>
           <div>
             <img
               className="inline-block h-7 w-7 rounded-full ring-2 ring-white"
@@ -69,32 +88,42 @@ const Header = () => {
             />
           </div>
           {menuOpened && (
-            <div
-              className={`flex flex-col absolute left-0 top-[45px] border-2  z-10 bg-white transition-all duration-900 ease-out 
+            <>
+              <div
+                className={`flex flex-col absolute left-0 top-[45px] border-2  z-10 bg-white transition-all duration-900 ease-out 
               ${menuOpened && "animate-show"}  ${!menuOpened && "animate-hide"}
                           `}
-            >
-              <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100 ">
-                Settings
-              </h4>
-              <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100">
-                Profile
-              </h4>
-              <div className="flex justify-center items-center px-2 hover:bg-slate-100">
-                <h4 className="text-slate-500 py-2 mr-10">Notifications</h4>
-                <div className="flex justify-center items-center w-4 h-4 bg-red-600 rounded-full text-amber-100 text-xs py-2 mr-2">
-                  3
+              >
+                <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100 ">
+                  Settings
+                </h4>
+                <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100">
+                  Profile
+                </h4>
+                <div className="flex justify-center items-center px-2 hover:bg-slate-100">
+                  <h4 className="text-slate-500 py-2 mr-10">Notifications</h4>
+                  <div className="flex justify-center items-center w-4 h-4 bg-red-600 rounded-full text-amber-100 text-xs py-2 mr-2">
+                    3
+                  </div>
                 </div>
+                <h4 className="text-slate-500 py-2  px-2  hover:bg-slate-100">
+                  Help
+                </h4>
+                <h4 className="text-slate-500 py-3 px-2 border-t-2 hover:bg-slate-100">
+                  Logout
+                </h4>
               </div>
-              <h4 className="text-slate-500 py-2  px-2  hover:bg-slate-100">
-                Help
-              </h4>
-              <h4 className="text-slate-500 py-3 px-2 border-t-2 hover:bg-slate-100">
-                Logout
-              </h4>
-            </div>
+            </>
           )}
         </div>
+        {menuOpened && (
+          <div
+            className="w-screen h-screen absolute top-0 left-0 z-9"
+            onClick={() => setMenuOpened(false)}
+          >
+            till
+          </div>
+        )}
       </div>
     </nav>
   );
