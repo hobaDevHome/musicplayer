@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { PlayCircleIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 const SongDetails = ({ songs }) => {
   const [suggs, setsuggs] = useState([]);
@@ -85,20 +86,26 @@ export default SongDetails;
 const SugCard = ({ song }) => {
   return (
     <div className="flex itemx-center p-2 ">
-      <img
-        src={require(`../images/${song.imgsrc}`)}
-        alt="song"
-        className="rounded w-[70px] h-[70px] object-cover mr-3  "
-      />
+      <Link
+        to={`/songs/${song.id}`}
+        style={{ textDecoration: "none" }}
+        className="flex itemx-center p-2 "
+      >
+        <img
+          src={require(`../images/${song.imgsrc}`)}
+          alt="song"
+          className="rounded w-[70px] h-[70px] object-cover mr-3  "
+        />
 
-      <div className="flex flex-col">
-        <div className="text-sm text-gray-700 pb-1 sm:self-center md:self-start">
-          {song.songName}
+        <div className="flex flex-col">
+          <div className="text-sm text-gray-700 pb-1 sm:self-center md:self-start">
+            {song.songName}
+          </div>
+          <div className="text-sm text-gray-500  pb-3 sm:self-center md:self-start">
+            {song.singer}
+          </div>
         </div>
-        <div className="text-sm text-gray-500  pb-3 sm:self-center md:self-start">
-          {song.singer}
-        </div>
-      </div>
+      </Link>
     </div>
   );
 };

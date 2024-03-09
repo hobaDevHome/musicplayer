@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const Gallery = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(3);
+  const [recordsPerPage] = useState(7);
 
   // pagination values
   const indexOfLastRecord = currentPage * recordsPerPage;
@@ -44,14 +44,12 @@ const Gallery = ({ data }) => {
           {currentRecords.length > 0 ? (
             currentRecords.map((song) => {
               return (
-                <>
-                  <Link
-                    to={`/songs/${song.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <SongCard song={song} />;
-                  </Link>
-                </>
+                <Link
+                  to={`/songs/${song.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <SongCard song={song} />;
+                </Link>
               );
             })
           ) : (

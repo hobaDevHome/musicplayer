@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
 
         <div
-          className="max-sm:hidden  md:flex w-full py-4 justify-center items-center text-white"
+          className="max-sm:hidden  md:flex w-full py-3 justify-center items-center text-white"
           style={{ backgroundColor: "#36B0C8" }}
         >
           song name

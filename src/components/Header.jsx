@@ -1,24 +1,50 @@
-import React, { useState } from "react";
+// @ts-nocheck
+import React, { useState, useRef, useEffect } from "react";
 import avatar from "../images/nar2.jpg";
 import logo from "../images/logo3.jpg";
+import { Link } from "react-router-dom";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+
+import { useOutsideClick } from "../utils/UseOutside";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
+  const menuRef = useRef(null);
+  const menuBtnRef = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside, true);
+    };
+  }, []);
+
+  const handleClickOutside = (e) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(e.target) &&
+      !menuBtnRef.current.contains(e.target)
+    ) {
+      setMenuOpened(false);
+    }
+  };
 
   return (
     <nav
       className="w-full  flex fixed items-center justify-between h-[60px]  p-3 border-2 p-0 m-0"
       aria-label="Global"
     >
-      <div className="flex justify-center items-center ">
-        <img className="h-12 w-12 m-1 max-md:mr-2" src={logo} alt="logo" />
-        <p className="max-md:hidden lg:flex text-3xl mx-3 font-madimi">
-          Golden Tracks
-        </p>
-      </div>
+      <Link to={`/`} style={{ textDecoration: "none" }}>
+        <div className="flex justify-center items-center ">
+          <img className="h-12 w-12 m-1 max-md:mr-2" src={logo} alt="logo" />
+          <p className="max-md:hidden lg:flex text-3xl mx-3 font-madimi">
+            Golden Tracks
+          </p>
+        </div>
+      </Link>
       <div className="max-sm:hidden md:flex relative flex-1 mr-10">
         <input
-          className=" appearance-none hover:border-2  hover:border-neutral-200 pl-10  transition-colors rounded-md w-full py-2 px-3 text-gray-800 
+          className=" appearance-none hover:border-2  hover:border-neutral-200 pl-10  transition-colors rounded-md w-full py-2 px-7 text-gray-800 
           leading-tight focus:outline-none   focus:shadow-outline "
           id="search"
           type="text"
@@ -26,20 +52,7 @@ const Header = () => {
         />
 
         <div className="absolute left-0 inset-y-0 flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-4 ml-2 text-gray-400 hover:text-gray-500"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          <MagnifyingGlassIcon className="h-8 w-8 text-stone-300 cursor-pointer mr-5 " />
         </div>
       </div>
 
@@ -63,13 +76,16 @@ const Header = () => {
             />
           </svg>
         </div>
+
         <div
           className="flex cursor-pointer relative p-2 transition-all duration-300 ease-out"
           style={{ backgroundColor: menuOpened ? "rgb(226 232 240)" : "white" }}
           onClick={() => setMenuOpened(!menuOpened)}
         >
-          <div className="flex mx-3 justify-center items-center ">
-            <div className="max-lg:hidden xl:flex">Ahmed Sarhan</div>
+          <div className="flex mx-3  justify-center items-center ">
+            <div ref={menuBtnRef} className="max-lg:hidden xl:flex">
+              Ahmed Sarhan
+            </div>
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -95,42 +111,33 @@ const Header = () => {
             />
           </div>
           {menuOpened && (
-            <>
-              <div
-                className={`flex flex-col absolute left-0 top-[45px] border-2  z-10 bg-white transition-all duration-900 ease-out 
+            <div
+              ref={menuRef}
+              className={`flex flex-col absolute left-0 top-[55px] border-2  z-100 bg-white transition-all duration-900 ease-out 
               ${menuOpened && "animate-show"}  ${!menuOpened && "animate-hide"}
                           `}
-              >
-                <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100 ">
-                  Settings
-                </h4>
-                <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100">
-                  Profile
-                </h4>
-                <div className="flex justify-center items-center px-2 hover:bg-slate-100">
-                  <h4 className="text-slate-500 py-2 mr-10">Notifications</h4>
-                  <div className="flex justify-center items-center w-4 h-4 bg-red-600 rounded-full text-amber-100 text-xs py-2 mr-2">
-                    3
-                  </div>
+            >
+              <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100 ">
+                Settings
+              </h4>
+              <h4 className="text-slate-500 py-2 px-2 hover:bg-slate-100">
+                Profile
+              </h4>
+              <div className="flex justify-center items-center px-2 hover:bg-slate-100">
+                <h4 className="text-slate-500 py-2 mr-10">Notifications</h4>
+                <div className="flex justify-center items-center w-4 h-4 bg-red-600 rounded-full text-amber-100 text-xs py-2 mr-2">
+                  3
                 </div>
-                <h4 className="text-slate-500 py-2  px-2  hover:bg-slate-100">
-                  Help
-                </h4>
-                <h4 className="text-slate-500 py-3 px-2 border-t-2 hover:bg-slate-100">
-                  Logout
-                </h4>
               </div>
-            </>
+              <h4 className="text-slate-500 py-2  px-2  hover:bg-slate-100">
+                Help
+              </h4>
+              <h4 className="text-slate-500 py-3 px-2 border-t-2 hover:bg-slate-100">
+                Logout
+              </h4>
+            </div>
           )}
         </div>
-        {menuOpened && (
-          <div
-            className="w-screen h-screen absolute top-0 left-0 z-9"
-            onClick={() => setMenuOpened(false)}
-          >
-            till
-          </div>
-        )}
       </div>
     </nav>
   );

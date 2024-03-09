@@ -1,4 +1,5 @@
 import React from "react";
+import next3 from "../images/next3.png";
 
 const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
   const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
@@ -14,13 +15,17 @@ const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
       <ul className="pagination justify-content-center">
         <li className="page-item">
           <a className="page-link" onClick={goToPrevPage} href="#f">
-            Previous
+            <img
+              src={next3}
+              alt=""
+              className="h-6 w-6  mr-2 cursor-pointer scale-x-[-1] "
+            />
           </a>
         </li>
         {pageNumbers.map((pgNumber) => (
           <li
             key={pgNumber}
-            className={`page-item ${currentPage == pgNumber ? "active" : ""} `}
+            className={`page-item ${currentPage === pgNumber ? "active" : ""} `}
           >
             <a
               onClick={() => setCurrentPage(pgNumber)}
@@ -33,7 +38,7 @@ const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
         ))}
         <li className="page-item">
           <a className="page-link" onClick={goToNextPage} href="#f">
-            Next
+            <img src={next3} alt="" className="h-6 w-6  mr-2 cursor-pointer " />
           </a>
         </li>
       </ul>
