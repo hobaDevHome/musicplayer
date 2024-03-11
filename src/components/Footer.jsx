@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+// @ts-nocheck
+
+import React, { useRef, useState, useEffect } from "react";
 import "./footer.css";
 
 import {
@@ -11,12 +13,72 @@ import {
 import reaeat from "../images/repeat.svg";
 import shuffle from "../images/shuffle.svg";
 
-// light footer #4cb6cb
-// dark footer #2EA0B6
-
-const Footer = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+const Footer = ({ data, songId }) => {
   const [isLooping, setIsLoopint] = useState(false);
+  const [songs, setSongs] = useState(data);
+  const [isplaying, setisplaying] = useState(false);
+  const [currentSong, setCurrentSong] = useState(songs[0]);
+
+  const audioElem = useRef();
+  const clickRef = useRef();
+
+  useEffect(() => {
+    setSongs(data);
+    console.log(songId);
+    if (!songId) {
+    } else {
+      let current = songs.find((e) => e.id === songId);
+      setCurrentSong(current);
+      setisplaying(true);
+    }
+  }, [songId]);
+  useEffect(() => {
+    if (isplaying) {
+      if (audioElem.current) audioElem.current.play();
+    } else {
+      if (audioElem.current) audioElem.current.pause();
+    }
+  }, [isplaying, currentSong]);
+
+  const onPlaying = () => {
+    const duration = audioElem.current.duration;
+    const ct = audioElem.current.currentTime;
+
+    setCurrentSong({
+      ...currentSong,
+      progress: (ct / duration) * 100,
+      length: duration,
+    });
+  };
+
+  const checkWidth = (e) => {
+    let width = clickRef.current ? clickRef.current.clientWidth : 0;
+    const offset = e.nativeEvent.offsetX;
+
+    const divprogress = (offset / width) * 100;
+    audioElem.current.currentTime = (divprogress / 100) * currentSong.length;
+  };
+
+  const skipBack = () => {
+    const index = songs.findIndex((x) => x.id === currentSong.id);
+    if (index === 0) {
+      setCurrentSong(songs[songs.length - 1]);
+    } else {
+      setCurrentSong(songs[index - 1]);
+    }
+    audioElem.current.currentTime = 0;
+  };
+
+  const skiptoNext = () => {
+    const index = songs.findIndex((x) => x.id === currentSong.id);
+
+    if (index === songs.length - 1) {
+      setCurrentSong(songs[0]);
+    } else {
+      setCurrentSong(songs[index + 1]);
+    }
+    audioElem.current.currentTime = 0;
+  };
 
   return (
     <footer
@@ -24,26 +86,45 @@ const Footer = () => {
       style={{ backgroundColor: "#2EA0B6" }}
       aria-label="Global"
     >
+      {currentSong && (
+        <audio
+          src={currentSong.soundSrc}
+          ref={audioElem}
+          onTimeUpdate={onPlaying}
+        />
+      )}
       {/* larger screens */}
       <div className="flex justify-between w-full">
         {/* ---------- play puase ----------------- */}
         <div className="flex w-56 items-center px-2 justify-center">
           <div>
-            <BackwardIcon className="h-8 w-8 text-white mr-2 cursor-pointer" />
+            <BackwardIcon
+              className="h-8 w-8 text-white mr-2 cursor-pointer"
+              onClick={skipBack}
+            />
           </div>
           <div
-            onClick={() => setIsPlaying(!isPlaying)}
+            onClick={() => setisplaying(!isplaying)}
             className="cursor-pointer"
           >
-            {isPlaying ? (
-              <PlayIcon className="h-8 w-8 text-white" />
+            {!isplaying ? (
+              <PlayIcon
+                className="h-8 w-8 text-white"
+                onClick={() => setisplaying(!isplaying)}
+              />
             ) : (
-              <PauseIcon className="h-8 w-8 text-white" />
+              <PauseIcon
+                className="h-8 w-8 text-white"
+                onClick={() => setisplaying(!isplaying)}
+              />
             )}
           </div>
 
           <div>
-            <ForwardIcon className="h-8 w-8 text-white ml-2 cursor-pointer" />
+            <ForwardIcon
+              className="h-8 w-8 text-white ml-2 cursor-pointer"
+              onClick={skiptoNext}
+            />
           </div>
         </div>
 
@@ -51,7 +132,7 @@ const Footer = () => {
           className="max-sm:hidden  md:flex w-full py-3 justify-center items-center text-white"
           style={{ backgroundColor: "#36B0C8" }}
         >
-          song name
+          {currentSong && currentSong.name}
         </div>
         {/* ------------------ controls -------------------- */}
         <div className="flex w-96 items-center px-2 justify-between">
@@ -59,11 +140,20 @@ const Footer = () => {
           <div>
             <SpeakerWaveIcon className="max-sm:hidden md:flex h-4 w-5 text-white mr-2 cursor-pointer" />
           </div>
-          <div className="max-sm:hidden md:flex">
-            <div className="progress">
-              <div className="progress-value"></div>
+
+          <div className="navigation w-70 max-sm:hidden md:flex">
+            <div
+              className="navigation_wrapper"
+              onClick={checkWidth}
+              ref={clickRef}
+            >
+              <div
+                className="seek_bar"
+                style={{ width: `${currentSong.progress + "%"}` }}
+              ></div>
             </div>
           </div>
+
           <div>
             <img
               src={shuffle}

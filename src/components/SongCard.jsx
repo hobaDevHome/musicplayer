@@ -11,7 +11,7 @@ const SongCard = ({ song }) => {
         onMouseLeave={() => setshowPlayButton(false)}
       >
         <img
-          src={require(`../images/${song.imgsrc}`)}
+          src={song.imageSrc}
           alt="song"
           className="rounded w-[220px] h-[220px] object-cover z-9 hover:brightness-[0.5] "
         />
@@ -29,7 +29,7 @@ const SongCard = ({ song }) => {
       </div>
       <div>
         <div className="text-md text-gray-700 pt-2 pb-1 sm:self-center md:self-start">
-          {song.songName}
+          {song.name}
         </div>
         <div className="text-sm text-gray-500  pb-3 sm:self-center md:self-start">
           {song.singer}

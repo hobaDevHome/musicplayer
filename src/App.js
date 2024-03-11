@@ -1,143 +1,65 @@
+// @ts-nocheck
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Gallery from "./components/Gallery";
 import Header from "./components/Header";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SongDetails from "./components/SongDetails";
 
-const data = [
-  {
-    id: "1",
-    songName: "ansak1",
-    singer: "Om Kulthom",
-    composer: "Baleegh Hamdy",
-    duration: 180,
-    keywords: ["romance", "sad"],
-    imgsrc: "elsett2.jpg",
-  },
-  {
-    id: "2",
-    songName: "yehonsh2",
-    singer: "shayda",
-    composer: "si abdo",
-    duration: 70,
-    keywords: ["romance", "happy"],
-    imgsrc: "shadia.jpg",
-  },
-  {
-    id: "3",
-    songName: "ansak3",
-    singer: "Om Kulthom",
-    composer: "Baleegh Hamdy",
-    duration: 180,
-    keywords: ["romance", "sad"],
-    imgsrc: "elsett2.jpg",
-  },
-  {
-    id: "4",
-    songName: "yehonsh4",
-    singer: "shayda5",
-    composer: "si abdo",
-    duration: 70,
-    keywords: ["romance", "happy"],
-    imgsrc: "shadia.jpg",
-  },
-  {
-    id: "5",
-    songName: "ansak6",
-    singer: "Om Kulthom",
-    composer: "Baleegh Hamdy",
-    duration: 180,
-    keywords: ["romance", "sad"],
-    imgsrc: "elsett2.jpg",
-  },
-  {
-    id: "4",
-    songName: "yehonsh4",
-    singer: "shayda5",
-    composer: "si abdo",
-    duration: 70,
-    keywords: ["romance", "happy"],
-    imgsrc: "shadia.jpg",
-  },
-  {
-    id: "5",
-    songName: "ansak6",
-    singer: "Om Kulthom",
-    composer: "Baleegh Hamdy",
-    duration: 180,
-    keywords: ["romance", "sad"],
-    imgsrc: "elsett2.jpg",
-  },
-  {
-    id: "4",
-    songName: "yehonsh4",
-    singer: "shayda5",
-    composer: "si abdo",
-    duration: 70,
-    keywords: ["romance", "happy"],
-    imgsrc: "shadia.jpg",
-  },
-  {
-    id: "5",
-    songName: "ansak6",
-    singer: "Om Kulthom",
-    composer: "Baleegh Hamdy",
-    duration: 180,
-    keywords: ["romance", "sad"],
-    imgsrc: "elsett2.jpg",
-  },
-  {
-    id: "4",
-    songName: "yehonsh4",
-    singer: "shayda5",
-    composer: "si abdo",
-    duration: 70,
-    keywords: ["romance", "happy"],
-    imgsrc: "shadia.jpg",
-  },
-  {
-    id: "5",
-    songName: "ansak6",
-    singer: "Om Kulthom",
-    composer: "Baleegh Hamdy",
-    duration: 180,
-    keywords: ["romance", "sad"],
-    imgsrc: "elsett2.jpg",
-  },
-  {
-    id: "4",
-    songName: "yehonsh4",
-    singer: "shayda5",
-    composer: "si abdo",
-    duration: 70,
-    keywords: ["romance", "happy"],
-    imgsrc: "shadia.jpg",
-  },
-  {
-    id: "5",
-    songName: "ansak6",
-    singer: "Om Kulthom",
-    composer: "Baleegh Hamdy",
-    duration: 180,
-    keywords: ["romance", "sad"],
-    imgsrc: "elsett2.jpg",
-  },
-];
+import { db } from "./firebase-config";
+import { collection, getDocs } from "firebase/firestore";
 
 function App() {
+  const [musicList, setMusicList] = useState([]);
+  const [showList, setShowList] = useState([]);
+  const [playingSongId, setplayingSongId] = useState("");
+
+  const getTracks = async () => {
+    const response = await getDocs(collection(db, "tracks"));
+    let list = response.docs.map((data) => {
+      return { ...data.data(), id: data.id };
+    });
+
+    setMusicList(list);
+    setShowList(list);
+  };
+
+  useEffect(() => {
+    getTracks();
+  }, []);
+
+  const getSearchtext = (search) => {
+    let temp = [...musicList];
+    let output = temp.filter(
+      (e) =>
+        e.name.toLowerCase().includes(search.toLowerCase()) ||
+        e.singer.toLowerCase().includes(search.toLowerCase())
+    );
+
+    setShowList(output);
+  };
+
+  const changesong = (songId) => {
+    setplayingSongId(songId);
+  };
+  if (!musicList) {
+    return;
+  }
   return (
     <div className=" flex flex-col justify-between w-screen h-screen m-0 p-0 ">
-      <Header />
+      <Header getSearchtext={getSearchtext} />
       <Routes>
-        <Route index element={<Gallery data={data} />} />
+        <Route index element={<Gallery data={showList} />} />
 
-        <Route path="/songs/:id" element={<SongDetails songs={data} />} />
+        <Route
+          path="/songs/:id"
+          element={<SongDetails songs={musicList} changesong={changesong} />}
+        />
       </Routes>
 
-      <Footer />
+      <Footer data={musicList} songId={playingSongId} />
     </div>
   );
 }

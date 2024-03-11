@@ -5,6 +5,7 @@ import SongCard from "./SongCard";
 import Pagination from "./Pagination";
 
 import { Link } from "react-router-dom";
+import PlyaerContianer from "./PlyaerContianer";
 
 const Gallery = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,6 +46,7 @@ const Gallery = ({ data }) => {
             currentRecords.map((song) => {
               return (
                 <Link
+                  key={song.id}
                   to={`/songs/${song.id}`}
                   style={{ textDecoration: "none" }}
                 >
@@ -56,6 +58,7 @@ const Gallery = ({ data }) => {
             <div>No songs yet</div>
           )}
         </div>
+
         <div className="container mt-5">
           <Pagination
             nPages={nPages}

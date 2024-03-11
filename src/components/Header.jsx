@@ -5,10 +5,9 @@ import logo from "../images/logo3.jpg";
 import { Link } from "react-router-dom";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
-import { useOutsideClick } from "../utils/UseOutside";
-
-const Header = () => {
+const Header = ({ getSearchtext }) => {
   const [menuOpened, setMenuOpened] = useState(false);
+  const [searchtext, setSearchText] = useState("");
   const menuRef = useRef(null);
   const menuBtnRef = useRef(null);
 
@@ -28,7 +27,10 @@ const Header = () => {
       setMenuOpened(false);
     }
   };
-
+  const handleSearch = (search) => {
+    setSearchText(search);
+    getSearchtext(search);
+  };
   return (
     <nav
       className="w-full  flex fixed items-center justify-between h-[60px]  p-3 border-2 p-0 m-0"
@@ -49,6 +51,8 @@ const Header = () => {
           id="search"
           type="text"
           placeholder="Search..."
+          value={searchtext}
+          onChange={(e) => handleSearch(e.target.value)}
         />
 
         <div className="absolute left-0 inset-y-0 flex items-center">
@@ -65,13 +69,13 @@ const Header = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="w-6 h-6"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
             />
           </svg>
