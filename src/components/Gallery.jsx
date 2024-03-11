@@ -59,7 +59,7 @@ const Gallery = ({ data }) => {
           )}
         </div>
 
-        <div className="container mt-5">
+        <div className="container mt-5 pb-3">
           <Pagination
             nPages={nPages}
             currentPage={currentPage}

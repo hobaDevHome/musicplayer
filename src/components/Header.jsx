@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useRef, useEffect } from "react";
 import avatar from "../images/nar2.jpg";
-import logo from "../images/logo3.jpg";
+import logo from "../images/logo6.jpg";
 import { Link } from "react-router-dom";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
@@ -33,12 +33,12 @@ const Header = ({ getSearchtext }) => {
   };
   return (
     <nav
-      className="w-full  flex fixed items-center justify-between h-[60px]  p-3 border-2 p-0 m-0"
+      className="w-full  flex fixed items-center justify-between h-[80px]  bg-white p-3 border-2  m-0"
       aria-label="Global"
     >
       <Link to={`/`} style={{ textDecoration: "none" }}>
         <div className="flex justify-center items-center ">
-          <img className="h-12 w-12 m-1 max-md:mr-2" src={logo} alt="logo" />
+          <img className="h-16 w-16 m-1 max-md:mr-2" src={logo} alt="logo" />
           <p className="max-md:hidden lg:flex text-3xl mx-3 font-madimi">
             Golden Tracks
           </p>
