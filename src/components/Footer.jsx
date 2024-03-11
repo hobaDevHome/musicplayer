@@ -24,14 +24,18 @@ const Footer = ({ data, songId }) => {
 
   useEffect(() => {
     setSongs(data);
-    console.log(songId);
+  }, [songs, data]);
+
+  useEffect(() => {
     if (!songId) {
+      setCurrentSong(songs[0]);
+      setisplaying(false);
     } else {
       let current = songs.find((e) => e.id === songId);
       setCurrentSong(current);
       setisplaying(true);
     }
-  }, [songId]);
+  }, [songId, songs]);
   useEffect(() => {
     if (isplaying) {
       if (audioElem.current) audioElem.current.play();
@@ -80,6 +84,10 @@ const Footer = ({ data, songId }) => {
     audioElem.current.currentTime = 0;
   };
 
+  if (!songs) {
+    return <h2> Loading...</h2>;
+  }
+  console.log("footer data", data);
   return (
     <footer
       className="w-full  flex fixed items-center justify-between h-[60px]  border-2 p-0 m-0 bottom-0"
@@ -149,7 +157,9 @@ const Footer = ({ data, songId }) => {
             >
               <div
                 className="seek_bar"
-                style={{ width: `${currentSong.progress + "%"}` }}
+                style={{
+                  width: currentSong ? `${currentSong.progress + "%"}` : 0,
+                }}
               ></div>
             </div>
           </div>

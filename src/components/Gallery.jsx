@@ -5,7 +5,6 @@ import SongCard from "./SongCard";
 import Pagination from "./Pagination";
 
 import { Link } from "react-router-dom";
-import PlyaerContianer from "./PlyaerContianer";
 
 const Gallery = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +15,10 @@ const Gallery = ({ data }) => {
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
   const nPages = Math.ceil(data.length / recordsPerPage);
+
+  if (!data) {
+    return <h2>Loading ...</h2>;
+  }
 
   return (
     <div

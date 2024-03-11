@@ -44,9 +44,7 @@ function App() {
   const changesong = (songId) => {
     setplayingSongId(songId);
   };
-  if (!musicList) {
-    return;
-  }
+
   return (
     <div className=" flex flex-col justify-between w-screen h-screen m-0 p-0 ">
       <Header getSearchtext={getSearchtext} />
