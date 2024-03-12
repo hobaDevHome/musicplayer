@@ -21,6 +21,8 @@ const Footer = ({ data, songId }) => {
   const [ct, setct] = useState(0);
   const [duration, setduration] = useState(0);
   const [isshuffle, setIsshuffle] = useState(false);
+  const [showVolumeControl, setShowVolumeControl] = useState(false);
+  const [volumeLevel, setVolumeLevel] = useState(50);
 
   const audioElem = useRef();
   const clickRef = useRef();
@@ -45,11 +47,18 @@ const Footer = ({ data, songId }) => {
   }, [songId, songs]);
   useEffect(() => {
     if (isplaying) {
-      if (audioElem.current) audioElem.current.play();
+      if (audioElem.current) {
+        audioElem.current.play();
+        audioElem.current.volume = volumeLevel / 100;
+      }
     } else {
-      if (audioElem.current) audioElem.current.pause();
+      if (audioElem.current) {
+        // audioElem.current.volume = 0;
+
+        audioElem.current.pause();
+      }
     }
-  }, [isplaying, currentSong]);
+  }, [isplaying, currentSong, volumeLevel]);
 
   const onPlaying = () => {
     const duration = audioElem.current.duration;
@@ -57,6 +66,7 @@ const Footer = ({ data, songId }) => {
 
     let florredCt = Math.floor(ct);
     let florredduration = Math.floor(duration);
+
     if (isNaN(florredduration)) florredduration = 0;
     if (florredCt < 10) {
       setct(`0${florredCt}`);
@@ -117,10 +127,15 @@ const Footer = ({ data, songId }) => {
     audioElem.current.currentTime = 0;
   };
 
+  const changeVolume = (e) => {
+    // console.log(e.target.value / 100);
+    setVolumeLevel(e.target.valueAsNumber);
+  };
+
   if (!songs) {
     return <h2> Loading...</h2>;
   }
-
+  // console.log(volumeLevel);
   return (
     <footer
       className="w-full  flex fixed items-center justify-between h-[60px]  border-2 p-0 m-0 bottom-0"
@@ -180,8 +195,27 @@ const Footer = ({ data, songId }) => {
           <div className="text-white text-xs max-sm:hidden">
             {ct}:{duration}
           </div>
-          <div>
+          <div
+            onClick={() => setShowVolumeControl(!showVolumeControl)}
+            className="relative"
+          >
             <SpeakerWaveIcon className="max-sm:hidden md:flex h-4 w-5 text-white mr-2 cursor-pointer" />
+            {showVolumeControl && (
+              <div
+                id="volume"
+                className="absolute bottom-[75px] left-[-55px]  rotate-90"
+              >
+                <input
+                  type="range"
+                  orient="vertical"
+                  min="1"
+                  max="100"
+                  step="1"
+                  value={volumeLevel}
+                  onChange={changeVolume}
+                />
+              </div>
+            )}
           </div>
 
           <div className="navigation w-70 max-sm:hidden md:flex">

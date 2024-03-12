@@ -140,3 +140,7 @@
     height: 4.8px;
   }
 }
+
+input[type="range"] {
+  accent-color: #eeb93e;
+}
