@@ -18,15 +18,21 @@ const Footer = ({ data, songId }) => {
   const [songs, setSongs] = useState(data);
   const [isplaying, setisplaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(songs[0]);
-  const [ct, setct] = useState("00");
-  const [duration, setduration] = useState("00");
+  const [ct, setct] = useState(0);
+  const [duration, setduration] = useState(0);
+  const [isshuffle, setIsshuffle] = useState(false);
 
   const audioElem = useRef();
   const clickRef = useRef();
 
   useEffect(() => {
-    setSongs(data);
-  }, [songs, data]);
+    console.log("check suffle");
+    if (isshuffle) {
+      setSongs(shuffleSongs(data));
+    } else {
+      setSongs(data);
+    }
+  }, [data, isshuffle]);
 
   useEffect(() => {
     if (!songId) {
@@ -50,12 +56,6 @@ const Footer = ({ data, songId }) => {
     const duration = audioElem.current.duration;
     const ct = audioElem.current.currentTime;
 
-    setCurrentSong({
-      ...currentSong,
-      progress: (ct / duration) * 100,
-      length: duration,
-    });
-
     let florredCt = Math.floor(ct);
     let florredduration = Math.floor(duration);
     if (florredCt < 10) {
@@ -70,6 +70,24 @@ const Footer = ({ data, songId }) => {
     }
   };
 
+  const shuffleSongs = () => {
+    let array = [...songs];
+    let currentIndex = array.length,
+      randomIndex;
+
+    while (currentIndex > 0) {
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+    return array;
+  };
   const checkWidth = (e) => {
     let width = clickRef.current ? clickRef.current.clientWidth : 0;
     const offset = e.nativeEvent.offsetX;
@@ -114,7 +132,7 @@ const Footer = ({ data, songId }) => {
           src={currentSong.soundSrc}
           ref={audioElem}
           onTimeUpdate={onPlaying}
-          loop={false}
+          loop={isLooping}
         />
       )}
 
@@ -175,17 +193,23 @@ const Footer = ({ data, songId }) => {
               <div
                 className="seek_bar"
                 style={{
-                  width: currentSong ? `${currentSong.progress + "%"}` : 0,
+                  width: currentSong ? `${(ct / duration) * 100 + "%"}` : 0,
                 }}
               ></div>
             </div>
           </div>
 
-          <div>
+          <div
+            onClick={() => {
+              setIsshuffle(!isshuffle);
+            }}
+          >
             <img
               src={shuffle}
               alt=""
-              className={`h-5 w-5 text-white  mr-2 cursor-pointer`}
+              className={`h-5 w-5 text-white  mr-2 cursor-pointer ${
+                isshuffle ? "opacity-100" : "opacity-65"
+              } `}
             />
           </div>
           <div onClick={() => setIsLoopint(!isLooping)}>
