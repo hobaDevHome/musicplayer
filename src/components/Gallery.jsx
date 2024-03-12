@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const Gallery = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(7);
+  const [recordsPerPage] = useState(12);
 
   // pagination values
   const indexOfLastRecord = currentPage * recordsPerPage;

@@ -18,6 +18,8 @@ const Footer = ({ data, songId }) => {
   const [songs, setSongs] = useState(data);
   const [isplaying, setisplaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(songs[0]);
+  const [ct, setct] = useState("00");
+  const [duration, setduration] = useState("00");
 
   const audioElem = useRef();
   const clickRef = useRef();
@@ -53,6 +55,19 @@ const Footer = ({ data, songId }) => {
       progress: (ct / duration) * 100,
       length: duration,
     });
+
+    let florredCt = Math.floor(ct);
+    let florredduration = Math.floor(duration);
+    if (florredCt < 10) {
+      setct(`0${florredCt}`);
+    } else {
+      setct(florredCt);
+    }
+    if (florredduration < 10) {
+      setduration(`0${florredduration}`);
+    } else {
+      setduration(florredduration);
+    }
   };
 
   const checkWidth = (e) => {
@@ -87,7 +102,7 @@ const Footer = ({ data, songId }) => {
   if (!songs) {
     return <h2> Loading...</h2>;
   }
-  console.log("footer data", data);
+
   return (
     <footer
       className="w-full  flex fixed items-center justify-between h-[60px]  border-2 p-0 m-0 bottom-0"
@@ -99,11 +114,11 @@ const Footer = ({ data, songId }) => {
           src={currentSong.soundSrc}
           ref={audioElem}
           onTimeUpdate={onPlaying}
+          loop={false}
         />
       )}
-      {/* larger screens */}
+
       <div className="flex justify-between w-full">
-        {/* ---------- play puase ----------------- */}
         <div className="flex w-56 items-center px-2 justify-center">
           <div>
             <BackwardIcon
@@ -142,9 +157,11 @@ const Footer = ({ data, songId }) => {
         >
           {currentSong && currentSong.name}
         </div>
-        {/* ------------------ controls -------------------- */}
+
         <div className="flex w-96 items-center px-2 justify-between">
-          <div className="text-white text-xs max-sm:hidden">00:00</div>
+          <div className="text-white text-xs max-sm:hidden">
+            {ct}:{duration}
+          </div>
           <div>
             <SpeakerWaveIcon className="max-sm:hidden md:flex h-4 w-5 text-white mr-2 cursor-pointer" />
           </div>
@@ -182,8 +199,6 @@ const Footer = ({ data, songId }) => {
           </div>
         </div>
       </div>
-      {/* smaller screens  */}
-      {/* <div className="xs:flex md:hidden items-center"></div> */}
     </footer>
   );
 };
