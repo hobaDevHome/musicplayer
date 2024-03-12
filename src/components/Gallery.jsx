@@ -58,7 +58,9 @@ const Gallery = ({ data }) => {
               );
             })
           ) : (
-            <div>No songs yet</div>
+            <div className="w-screen h-screen flex justify-center items-center p-0 m-0">
+              <span class="loader"></span>
+            </div>
           )}
         </div>
 
