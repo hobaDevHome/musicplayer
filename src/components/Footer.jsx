@@ -203,7 +203,7 @@ const Footer = ({ data, songId }) => {
             {showVolumeControl && (
               <div
                 id="volume"
-                className="absolute bottom-[75px] left-[-55px]  rotate-90"
+                className="absolute bottom-[75px] left-[-55px]  rotate-[-90deg]"
               >
                 <input
                   type="range"
