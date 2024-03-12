@@ -26,7 +26,6 @@ const Footer = ({ data, songId }) => {
   const clickRef = useRef();
 
   useEffect(() => {
-    console.log("check suffle");
     if (isshuffle) {
       setSongs(shuffleSongs(data));
     } else {

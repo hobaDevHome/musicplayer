@@ -69,7 +69,7 @@ const Gallery = ({ data }) => {
           </>
         ) : (
           <div className="w-full h-full flex justify-center items-center p-10 m-0">
-            <span class="loader"></span>
+            <span className="loader"></span>
           </div>
         )}
       </div>
