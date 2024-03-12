@@ -58,6 +58,7 @@ const Footer = ({ data, songId }) => {
 
     let florredCt = Math.floor(ct);
     let florredduration = Math.floor(duration);
+    if (isNaN(florredduration)) florredduration = 0;
     if (florredCt < 10) {
       setct(`0${florredCt}`);
     } else {
