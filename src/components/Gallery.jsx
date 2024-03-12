@@ -39,38 +39,39 @@ const Gallery = ({ data }) => {
           padding: 20,
         }}
       >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat( auto-fit, minmax(220px, 1fr) )",
-          }}
-        >
-          {currentRecords.length > 0 ? (
-            currentRecords.map((song) => {
-              return (
-                <Link
-                  key={song.id}
-                  to={`/songs/${song.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <SongCard song={song} />;
-                </Link>
-              );
-            })
-          ) : (
-            <div className="w-screen h-screen flex justify-center items-center p-0 m-0">
-              <span class="loader"></span>
+        {currentRecords.length > 0 ? (
+          <>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat( auto-fit, minmax(220px, 1fr) )",
+              }}
+            >
+              {currentRecords.map((song) => {
+                return (
+                  <Link
+                    key={song.id}
+                    to={`/songs/${song.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <SongCard song={song} />
+                  </Link>
+                );
+              })}
             </div>
-          )}
-        </div>
-
-        <div className="container mt-5 pb-3">
-          <Pagination
-            nPages={nPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </div>
+            <div className="container mt-1 pb-3">
+              <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="w-full h-full flex justify-center items-center p-10 m-0">
+            <span class="loader"></span>
+          </div>
+        )}
       </div>
     </div>
   );
