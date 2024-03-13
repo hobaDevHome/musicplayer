@@ -17,7 +17,7 @@ const Gallery = ({ data }) => {
   const nPages = Math.ceil(data.length / recordsPerPage);
 
   if (!data) {
-    return <h2>Loading ...</h2>;
+    return <h2>no songs yet</h2>;
   }
 
   return (
@@ -68,9 +68,7 @@ const Gallery = ({ data }) => {
             </div>
           </>
         ) : (
-          <div className="w-full h-full flex justify-center items-center p-10 m-0">
-            <span className="loader"></span>
-          </div>
+          <div>No songs found for this search </div>
         )}
       </div>
     </div>
