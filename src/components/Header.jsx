@@ -88,7 +88,7 @@ const Header = ({ getSearchtext }) => {
         >
           <div className="flex mx-3  justify-center items-center ">
             <div ref={menuBtnRef} className="max-lg:hidden xl:flex">
-              Ahmed Sarhan
+              Heba
             </div>
             <div>
               <svg
